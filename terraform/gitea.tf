@@ -1,12 +1,6 @@
 #---------------------------------------------------------------
 # Gitea installation
 #---------------------------------------------------------------
-resource "random_password" "gitea_postgres_password" {
-  length           = 48
-  special          = true
-  override_special = "!#"
-}
-
 resource "kubernetes_manifest" "namespace_gitea" {
   manifest = {
     "apiVersion" = "v1"
@@ -31,7 +25,7 @@ resource "kubernetes_manifest" "secret_gitea_postgresql_config" {
     }
     "data" = {
       "username" = "${base64encode("giteaAdmin")}"
-      "password" = "${base64encode(random_password.gitea_postgres_password.result)}"
+      "password" = "${base64encode("mysecretgiteapassword!")}"
     }
   }
 }

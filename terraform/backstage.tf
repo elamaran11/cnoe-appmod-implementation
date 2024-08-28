@@ -41,7 +41,7 @@ resource "terraform_data" "backstage_keycloak_setup" {
   ]
 
   provisioner "local-exec" {
-    command = "./install.sh ${random_password.backstage_postgres_password.result} ${local.backstage_domain_name} ${local.kc_domain_name} ${local.argo_domain_name}"
+    command = "./install.sh ${random_password.backstage_postgres_password.result} ${local.backstage_domain_name} ${local.kc_domain_name} ${local.argo_domain_name} ${local.gitea_domain_name} ${local.domain_name}"
 
     working_dir = "${path.module}/scripts/backstage"
     interpreter = ["/bin/bash", "-c"]

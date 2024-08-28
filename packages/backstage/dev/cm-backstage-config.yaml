@@ -44,10 +44,10 @@ data:
 
     integrations:
        gitea:
-         - baseUrl: https://gitea.elamaras.people.aws.dev
-           host: elamaras.people.aws.dev
-           username: giteaAdmin
-           password: mysecretgiteapassword!
+         - baseUrl: ${GITEA_BASE_URL}
+           host: ${DOMAIN_NAME}
+           username: ${GITEA_USERNAME}
+           password: ${GITEA_PASSWORD}
     #  github:
     #    - host: github.com
     #      apps:
