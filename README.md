@@ -15,9 +15,8 @@
 
 The installation process follows the following pattern. 
 
-1. Create a GitHub App for Backstage integration.
-2. Install ArgoCD and configure it to be able to monitor your GitHub Organization.
-3. Run Terraform. Terraform is responsible for:
+1. Install ArgoCD.
+2. Run Terraform. Terraform is responsible for:
     - Managing AWS resources necessary for the Kubernetes operators to function. Mostly IAM Roles.
     - Install components as ArgoCD applications. Pass IAM role information where necessary.
     - Apply Kubernetes manifests such as secrets and ingress where information cannot easily be passed to ArgoCD.
@@ -36,17 +35,10 @@ erDiagram
   "ArgoCD" ||--o{ "Components" : "installs to the cluster"
 ```
 
-This installation pattern where some Kubernetes manifests are handled in Terraform while others are handled in GitOps manner may not be suitable for many organizations. If you can be certain about parameters such as domain name and certificate handling, it is better to utilize GitOps approach where these information are committed to a repository. The reason it is handled this way is to allow for customization for different organizations without forking this repository and committing organization specific information into the repository. 
-
-## Secret handling
-
-Currently handled outside of repository and set via bash script. Secrets such as GitHub token and TLS private keys are stored in the `${REPO_ROOT}/private` directory.
-
-We may be able to use sealed secrets with full GitOps approach in the future.
+This installation pattern where some Kubernetes manifests are handled in Terraform while others are handled in GitOps manner may not be suitable for many organizations. If you can be certain about parameters such as domain name and certificate handling, it is better to utilize GitOps approach where these information are committed to a repository. The reason it is handled this way is to allow for customization for different organizations without forking this repository and committing organization specific information into the repository.
 
 ## Requirements
 
-- Github **Organization** (free to create)
 - An existing EKS cluster version (1.27+)
 - AWS CLI (2.13+)
 - eksctl (0.167.0+)
@@ -56,80 +48,25 @@ We may be able to use sealed secrets with full GitOps approach in the future.
 - yq
 - curl
 - kustomize
-- node + npm (if you choose to create GitHub App via CLI)
 
-## Create GitHub Apps for your GitHub Organization
-
-GitHub app is used to enable integration between Backstage and GitHub.
-This allows you for integration actions such as automatically importing Backstage configuration such as Organization information and templates.
-
-We strongly encourage you to create a **dedicated GitHub organization**. If you don't have an organization for this purpose, please follow [this link](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch) to create one.
-
-There are two ways to create GitHub integration with Backstage. You can use the Backstage CLI, or create it manually. See [this page](https://backstage.io/docs/integrations/github/github-apps) for more information on creating one manually. Once the app is created, place it under the private directory with the name `github-integration.yaml`. 
-
-To create one with the CLI, follow the steps below. If you are using cli to create GitHub App, please make sure to select third option in the permissions prompt, if your GitHub App access needs publishing access to create GitHub repositories for your backstage templates.
-
-```bash
-npx '@backstage/cli' create-github-app ${GITHUB_ORG_NAME}
-# If prompted, select all for permissions or select permissions listed in this page https://backstage.io/docs/integrations/github/github-apps#app-permissions
-# In the browser window, allow access to all repositories then install the app.
-
-? Select permissions [required] (these can be changed later but then require approvals in all installations) (Press <space> to select, <a> to toggle all, <i> to invert selection,
-and <enter> to proceed)
- ◉ Read access to content (required by Software Catalog to ingest data from repositories)
- ◉ Read access to members (required by Software Catalog to ingest GitHub teams)
-❯◯ Read and Write to content and actions (required by Software Templates to create new repositories)
-
-# move it to a "private" location. 
-mkdir -p private
-GITHUB_APP_FILE=$(ls github-app-* | head -n1)
-mv ${GITHUB_APP_FILE} private/github-integration.yaml
-```
-
-**The file created above contains credentials. Handle it with care.**
-
-The rest of the installation process assumes the GitHub app credentials are available at `private/github-integration.yaml`
-
-If you want to delete the GitHUb application, follow [these steps](https://docs.github.com/en/apps/maintaining-github-apps/deleting-a-github-app). 
-   
-## Create a GitHub token
-
-A GitHub token is needed by ArgoCD to get information about repositories under your Organization. 
-
-The following permissions are needed: 
-  - Repository access for all repositories
-  - Read-only access to: Administration, Contents, and Metadata.
-Get your GitHub personal access token from: https://github.com/settings/tokens?type=beta
-
-Once you have your token, save it under the private directory with the name `github-token`. For example:
-
-```bash
-# From the root of this repository.
-$ mkdir -p private
-$ vim private/github-token # paste your token
-# example output
-$ cat private/github-token
-github_pat_ABCDEDFEINDK....
-```
 
 ## Install
 
 Follow the following steps to get started.
 
-1. Create GitHub apps and GitHub token as described above.
-2. Create a new EKS cluster. We do not include EKS cluster in the installation module because EKS cluster requirements vary between organizations and the focus of this is integration of different projects. If you prefer, you can create a new basic cluster with the included [`eksctl.yaml`](./eksctl.yaml) file:
+1. Create a new EKS cluster. We do not include EKS cluster in the installation module because EKS cluster requirements vary between organizations and the focus of this is integration of different projects. If you prefer, you can create a new basic cluster with the included [`eksctl.yaml`](./eksctl.yaml) file:
     ```eksctl create cluster -f eksctl.yaml```
     You can get eksctl from [this link](https://eksctl.io/).
-3. If you don't have a public registered Route53 zone, [register a Route53 domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html) (be sure to use Route53 as the DNS service for the domain). We **strongly encourage creating a dedicated sub domain** for this. If you'd rather manage DNS yourself, you can set `enable_dns_management` in the config file.
-4. Get the host zone id and put it in the config file. 
+2. If you don't have a public registered Route53 zone, [register a Route53 domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html) (be sure to use Route53 as the DNS service for the domain). We **strongly encourage creating a dedicated sub domain** for this. If you'd rather manage DNS yourself, you can set `enable_dns_management` in the config file.
+3. Get the host zone id and put it in the config file. 
     ```bash
     aws route53 list-hosted-zones-by-name --dns-name <YOUR_DOMAIN_NAME> --query 'HostedZones[0].Id' --output text | cut -d'/' -f3
     # in the setups/config file, update the zone id.
     hosted_zone_id:: ZO020111111
     ```
-5. Update the [`setups/config`](setups/config.yaml) file with your own values.
-6. Run `setups/install.sh` and follow the prompts. See the section below about monitoring installation progress.
-7. Once installation completes, navigate to `backstage.<DOMAIN_NAME>` and log in as `user1`. Password is available as a secret. You may need to wait for DNS propagation to complete to be able to login. May take ~10 minutes.
+4. Update the [`setups/config`](setups/config.yaml) file with your own values.
+5. Run `setups/install.sh` and follow the prompts. See the section below about monitoring installation progress.
+6. Once installation completes, navigate to `backstage.<DOMAIN_NAME>` and log in as `user1`. Password is available as a secret. You may need to wait for DNS propagation to complete to be able to login. May take ~10 minutes.
     ```bash
     kubectl get secrets -n keycloak keycloak-user-config -o go-template='{{range $k,$v := .data}}{{printf "%s: " $k}}{{if not $v}}{{$v}}{{else}}{{$v | base64decode}}{{end}}{{"\n"}}{{end}}'
     ```
@@ -241,9 +178,6 @@ k get secrets -n keycloak keycloak-user-config -o go-template='{{range $k,$v := 
 
 ## Uninstall
 1. Run `setups/uninstall.sh` and follow the prompts.
-2. Remove GitHub app from your Organization by following [these steps](https://docs.github.com/en/apps/maintaining-github-apps/deleting-a-github-app).
-3. Remove token from your GitHub Organization by following [these steps](https://docs.github.com/en/organizations/managing-programmatic-access-to-your-organization/reviewing-and-revoking-personal-access-tokens-in-your-organization).
-4. Remove the created GitHub Organization.
 
 <details>
     <summary>Uninstall details</summary>
