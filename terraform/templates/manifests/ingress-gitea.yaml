@@ -10,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - gitea.elamaras.people.aws.dev
+        - ${GITEA_DOMAIN_NAME}
       secretName: gitea-prod-tls
   rules:
-    - host: gitea.elamaras.people.aws.dev
+    - host: ${GITEA_DOMAIN_NAME}
       http:
         paths:
           - path: /

@@ -15,6 +15,7 @@ locals {
   argo_redirect_url = "https://${local.argo_domain_name}/oauth2/callback"
   argocd_domain_name = "argocd.${local.domain_name}"
   backstage_domain_name = "backstage.${local.domain_name}"
+  gitea_domain_name = "backstage.${local.domain_name}"
 }
 
 

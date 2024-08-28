@@ -1,13 +1,74 @@
 #---------------------------------------------------------------
 # Gitea installation
 #---------------------------------------------------------------
+resource "random_password" "gitea_postgres_password" {
+  length           = 48
+  special          = true
+  override_special = "!#"
+}
 
-resource "kubectl_manifest" "application_argocd_gitea" {
+resource "kubernetes_manifest" "namespace_gitea" {
+  manifest = {
+    "apiVersion" = "v1"
+    "kind" = "Namespace"
+    "metadata" = {
+      "name" = "gitea"
+    }
+  }
+}
 
-  yaml_body = templatefile("${path.module}/templates/argocd-apps/gitea.yaml", {
-    GITHUB_URL = "https://github.com/elamaran11/cnoe-appmod-implementation.git"
-    PATH       = "packages/gitea"
-  })
+resource "kubernetes_manifest" "secret_gitea_postgresql_config" {
+  depends_on = [
+    kubernetes_manifest.namespace_gitea
+  ]
+
+  manifest = {
+    "apiVersion" = "v1"
+    "kind" = "Secret"
+    "metadata" = {
+      "name" = "gitea-credential"
+      "namespace" = "gitea"
+    }
+    "data" = {
+      "username" = "${base64encode("giteaAdmin")}"
+      "password" = "${base64encode(random_password.gitea_postgres_password.result)}"
+    }
+  }
+}
+
+resource "terraform_data" "gitea_setup" {
+  depends_on = [
+    kubernetes_manifest.namespace_gitea
+  ]
+
+  provisioner "local-exec" {
+#     command = "./install.sh ${local.domain_name}"
+    command = "./install.sh elamaras.people.aws.dev"
+
+    working_dir = "${path.module}/scripts/gitea"
+    interpreter = ["/bin/bash", "-c"]
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+
+    command = "./uninstall.sh"
+
+    working_dir = "${path.module}/scripts/gitea"
+    interpreter = ["/bin/bash", "-c"]
+  }
+}
+
+resource "kubectl_manifest" "ingress_gitea" {
+  depends_on = [
+    terraform_data.gitea_setup
+  ]
+
+  yaml_body = templatefile("${path.module}/templates/manifests/ingress-gitea.yaml", {
+#     GITEA_DOMAIN_NAME = local.gitea_domain_name
+    GITEA_DOMAIN_NAME = "elamaras.people.aws.dev"
+  }
+  )
 }
 
 
