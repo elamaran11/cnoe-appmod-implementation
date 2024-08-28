@@ -36,8 +36,7 @@ resource "terraform_data" "gitea_setup" {
   ]
 
   provisioner "local-exec" {
-#     command = "./install.sh ${local.domain_name}"
-    command = "./install.sh elamaras.people.aws.dev"
+    command = "./install.sh ${local.domain_name}"
 
     working_dir = "${path.module}/scripts/gitea"
     interpreter = ["/bin/bash", "-c"]
@@ -59,8 +58,7 @@ resource "kubectl_manifest" "ingress_gitea" {
   ]
 
   yaml_body = templatefile("${path.module}/templates/manifests/ingress-gitea.yaml", {
-#     GITEA_DOMAIN_NAME = local.gitea_domain_name
-    GITEA_DOMAIN_NAME = "elamaras.people.aws.dev"
+    GITEA_DOMAIN_NAME = local.gitea_domain_name
   }
   )
 }
