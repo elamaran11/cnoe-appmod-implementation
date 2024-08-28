@@ -1,7 +1,7 @@
 #!/bin/bash
   set -e
   
-  INSTALL_YAML="./gitea/gitea-install.yaml"
+  INSTALL_YAML="../../packages/gitea/gitea-install.yaml"
   GITEA_DIR="./gitea"
   CHART_VERSION="10.1.4"
   GITEA_DOMAIN_NAME="gitea.elamaras.people.aws.dev"
