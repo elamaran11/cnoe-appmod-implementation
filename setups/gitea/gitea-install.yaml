@@ -504,15 +504,9 @@ spec:
             - name: HOME
               value: /data/gitea/git
             - name: GITEA_ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  key:  username
-                  name: gitea-credential
+              value: "gitea_admin"
             - name: GITEA_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key:  password
-                  name: gitea-credential
+              value: "r8sA8CPHD9!bt6d"
           volumeMounts:
             - name: init
               mountPath: /usr/sbin

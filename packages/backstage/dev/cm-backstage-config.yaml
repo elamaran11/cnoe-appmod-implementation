@@ -43,11 +43,11 @@ data:
       # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
     integrations:
-      gitea:
-      - baseUrl: https://gitea.elamaras.people.aws.dev
-        host: elamaras.people.aws.dev
-        username: giteaAdmin
-        password: mysecretgiteapassword!
+       gitea:
+         - baseUrl: https://gitea.elamaras.people.aws.dev
+           host: elamaras.people.aws.dev
+           username: giteaAdmin
+           password: mysecretgiteapassword!
     #  github:
     #    - host: github.com
     #      apps:
