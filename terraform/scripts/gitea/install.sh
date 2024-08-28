@@ -1,8 +1,8 @@
 #!/bin/bash
   set -e
   
-  INSTALL_YAML="./scripts/gitea/gitea-install.yaml"
-  GITEA_DIR="./scripts/gitea/"
+  INSTALL_YAML="./gitea-install.yaml"
+  GITEA_DIR="."
   CHART_VERSION="10.1.4"
   DOMAIN_NAME=$1
   
@@ -17,4 +17,4 @@
 
   sed -i.bak 's/namespace: default/namespace: gitea/g' ${INSTALL_YAML}
 
-#  kubectl apply -n gitea -f ${INSTALL_YAML}
+  kubectl apply -n gitea -f ${INSTALL_YAML}
