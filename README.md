@@ -85,6 +85,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 Go to [`http://localhost:8081`](http://localhost:8081) and login with the username `admin` and password obtained above. In the UI you can look at resources created, their logs, and events.
 
+After logging in to ArgoCD, please make sure to add [cnoe-appmod-implementation](https://github.com/elamaran11/cnoe-appmod-implementation.git) as a private repository via HTTPS under Settings->Repositories in ArgoCD console.
 
 ### If you installed it without automatic DNS configuration.
 
