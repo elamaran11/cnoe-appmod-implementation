@@ -112,8 +112,6 @@ data:
       locations:
         # Examples from a public GitHub repository.
         - type: url
-          target: https://${GITEA_HOST}/gitea/giteaAdmin/idpbuilder-localdev-backstage-templates-entities/raw/branch/main/catalog-info.yaml
-        - type: url
           target: https://github.com/awslabs/backstage-templates-on-eks/blob/main/catalog-info.yaml
         - type: url
           target: https://github.com/cnoe-io/backstage-terraform-integrations/blob/main/backstage-templates-for-eks/catalog-info.yaml
@@ -129,5 +127,15 @@ data:
         type: 'multiTenant'
       clusterLocatorMethods:
         - $include: k8s-config.yaml
+    argocd:
+      username: admin
+      password: ${ARGOCD_ADMIN_PASSWORD}
+      appLocatorMethods:
+        - type: 'config'
+          instances:
+            - name: in-cluster
+              url: https://argocd.${GITEA_HOST}
+              username: admin
+              password: ${ARGOCD_ADMIN_PASSWORD}
     argoWorkflows:
         baseUrl: ${ARGO_WORKFLOWS_URL}
