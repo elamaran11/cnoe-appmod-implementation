@@ -112,7 +112,7 @@ data:
       locations:
         # Examples from a public GitHub repository.
         - type: url
-          target: https://cnoe.localtest.me/gitea/giteaAdmin/idpbuilder-localdev-backstage-templates-entities/raw/branch/main/catalog-info.yaml
+          target: https://${GITEA_HOST}/gitea/giteaAdmin/idpbuilder-localdev-backstage-templates-entities/raw/branch/main/catalog-info.yaml
         - type: url
           target: https://github.com/awslabs/backstage-templates-on-eks/blob/main/catalog-info.yaml
         - type: url
