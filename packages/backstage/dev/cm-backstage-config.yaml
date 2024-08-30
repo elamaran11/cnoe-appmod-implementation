@@ -112,8 +112,6 @@ data:
       locations:
         # Examples from a public GitHub repository.
         - type: url
-          target: https://github.com/awslabs/backstage-templates-on-eks/blob/main/catalog-info.yaml
-        - type: url
           target: https://github.com/elamaran11/backstage-terraform-integrations/blob/main/backstage-templates-for-eks/catalog-info.yaml
           rules:
             - allow: [User, Group]
