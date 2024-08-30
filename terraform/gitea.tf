@@ -11,7 +11,7 @@ resource "kubernetes_manifest" "namespace_gitea" {
   }
 }
 
-resource "kubernetes_manifest" "secret_gitea_postgresql_config" {
+resource "kubernetes_manifest" "secret_gitea_credentials" {
   depends_on = [
     kubernetes_manifest.namespace_gitea
   ]

@@ -34,6 +34,53 @@ resource "kubernetes_manifest" "secret_backstage_postgresql_config" {
   }
 }
 
+# Fetch the initial admin secret from ArgoCD
+data "kubernetes_secret" "argocd-initial-admin-secret" {
+  metadata {
+    name      = "argocd-initial-admin-secret"
+    namespace = "argocd"
+  }
+}
+
+# create a new secret by name argocd-credentials in backstage namespace referencing argocd-initial-admin-secret for username and password
+resource "kubernetes_manifest" "secret_backstage_argocd_credentials" {
+  depends_on = [
+    kubernetes_manifest.namespace_backstage,
+    data.kubernetes_secret.argocd-initial-admin-secret
+  ]
+
+  manifest = {
+    "apiVersion" = "v1"
+    "kind" = "Secret"
+    "metadata" = {
+      "name" = "argocd-credentials"
+      "namespace" = "backstage"
+    }
+    "data" = {
+      ARGOCD_ADMIN_PASSWORD = (data.kubernetes_secret.argocd-initial-admin-secret.data.password)
+    }
+  }
+}
+
+resource "kubernetes_manifest" "secret_gitea_backstage_credential" {
+  depends_on = [
+    kubernetes_manifest.namespace_backstage
+  ]
+
+  manifest = {
+    "apiVersion" = "v1"
+    "kind" = "Secret"
+    "metadata" = {
+      "name" = "gitea-credentials"
+      "namespace" = "backstage"
+    }
+    "data" = {
+      "username" = "${base64encode("giteaAdmin")}"
+      "password" = "${base64encode("mysecretgiteapassword!")}"
+    }
+  }
+}
+
 resource "terraform_data" "backstage_keycloak_setup" {
   depends_on = [
     kubectl_manifest.application_argocd_keycloak,
