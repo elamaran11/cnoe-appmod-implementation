@@ -121,10 +121,6 @@ data:
           target: https://github.com/elamaran11/backstage-crossplane-integrations/blob/main/backstage-crossplane-templates/catalog-info.yaml
           rules:
             - allow: [User, Group]
-        - type: url
-          target: https://github.com/aws-samples/appmod-blueprints/blob/main/platform/backstage/templates/catalog-info.yaml
-          rules:
-            - allow: [User, Group]
         ## Uncomment these lines to add an example org
         # - type: url
         #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
