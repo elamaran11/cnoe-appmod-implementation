@@ -28,7 +28,7 @@ spec:
                       path: k8s-config.yaml
       containers:
         - name: backstage
-          image: public.ecr.aws/cnoe-io/backstage:v0.0.2
+          image: ghcr.io/cnoe-io/backstage-app:b8e4f08914af17a48ed6b8b83a3621a9f4b4181d
           command:
             - node
             - packages/backend
@@ -41,3 +41,8 @@ spec:
           envFrom:
             - secretRef:
                 name: backstage-env-vars
+            - secretRef:
+                name: gitea-credentials
+            - secretRef:
+                name: argocd-credentials
+
