@@ -57,7 +57,7 @@ resource "kubernetes_manifest" "secret_backstage_argocd_credentials" {
       "namespace" = "backstage"
     }
     "data" = {
-      ARGOCD_ADMIN_PASSWORD = (data.kubernetes_secret.argocd-initial-admin-secret.data.password)
+      ARGOCD_ADMIN_PASSWORD = "${base64encode(data.kubernetes_secret.argocd-initial-admin-secret.data.password)}"
     }
   }
 }
