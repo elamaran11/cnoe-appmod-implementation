@@ -17,3 +17,6 @@ domain_name: elamaras.people.aws.dev
 
 # If set to true, we will store secrets to AWS Secrets Manager, then sync it to the cluster using External Secrets Operator.
 enable_external_secret: true
+
+# If set to true will apply flux and tofu manifests to allow deploying terraform resoruces from backstage.
+enable_terraform_integrations: true

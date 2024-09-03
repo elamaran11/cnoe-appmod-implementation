@@ -5,12 +5,12 @@ variable "repo_url" {
 }
 
 variable "tags" {
-    description = "Tags to apply to AWS resources"
-    default = {
-        env = "dev"
-        project = "cnoe"
-    }
-    type = map(string)
+  description = "Tags to apply to AWS resources"
+  default = {
+    env     = "dev"
+    project = "cnoe"
+  }
+  type = map(string)
 }
 
 variable "region" {
@@ -52,5 +52,11 @@ variable "enable_dns_management" {
 variable "enable_external_secret" {
   description = "Do you want to use external secret to manage dns records in Route53?"
   default     = true
+  type        = bool
+}
+
+variable "enable_terraform_integrations" {
+  description = "Do you want to apply the flux and tofu-controller manifests to create terraform resources in backstage?"
+  default     = false
   type        = bool
 }
