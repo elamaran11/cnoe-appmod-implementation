@@ -3,7 +3,7 @@ data "http" "flux_manifestfile" {
   url   = "https://raw.githubusercontent.com/cnoe-io/stacks/main/terraform-integrations/fluxcd.yaml"
 }
 resource "kubectl_manifest" "flux_manifest" {
-  yaml_body = data.http.flux_manifestfile[0].body
+  yaml_body = data.http.flux_manifestfile[0].response_body
 }
 
 data "http" "tofu_manifestfile" {
@@ -12,5 +12,5 @@ data "http" "tofu_manifestfile" {
 }
 
 resource "kubectl_manifest" "tofu_manifest" {
-  yaml_body = data.http.tofu_manifestfile[0].body
+  yaml_body = data.http.tofu_manifestfile[0].response_body
 }
