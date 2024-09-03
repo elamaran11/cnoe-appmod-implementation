@@ -1,9 +1,16 @@
-resource "kubectl_manifest" "flux-manifest" {
-  count     = local.tf_integrations_count
-  yaml_body = file("https://raw.githubusercontent.com/cnoe-io/stacks/main/terraform-integrations/fluxcd.yaml")
+data "http" "flux_manifestfile" {
+  count = local.tf_integrations_count
+  url   = "https://raw.githubusercontent.com/cnoe-io/stacks/main/terraform-integrations/fluxcd.yaml"
+}
+resource "kubectl_manifest" "flux_manifest" {
+  yaml_body = data.http.flux_manifestfile.body
 }
 
-resource "kubectl_manifest" "tofu-manifest" {
-  count     = local.tf_integrations_count
-  yaml_body = file("https://raw.githubusercontent.com/cnoe-io/stacks/main/terraform-integrations/tofu-controller.yaml")
+data "http" "tofu_manifestfile" {
+  count = local.tf_integrations_count
+  url   = "https://raw.githubusercontent.com/cnoe-io/stacks/main/terraform-integrations/tofu-controller.yaml"
+}
+
+resource "kubectl_manifest" "tofu_manifest" {
+  yaml_body = data.http.tofu_manifestfile.body
 }
