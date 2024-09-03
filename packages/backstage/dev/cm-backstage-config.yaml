@@ -136,7 +136,7 @@ data:
         - type: 'config'
           instances:
             - name: in-cluster
-              url: https://argocd.${GITEA_HOST}
+              url: https://argocd.${DOMAIN_NAME}
               username: admin
               password: ${ARGOCD_ADMIN_PASSWORD}
     argoWorkflows:
