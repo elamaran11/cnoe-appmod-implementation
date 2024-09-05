@@ -21,7 +21,7 @@ variable "region" {
 
 variable "cluster_name" {
   description = "EKS Cluster name"
-  default     = "cnoe-ref-impl"
+  default     = "modern-engineering"
   type        = string
 }
 
