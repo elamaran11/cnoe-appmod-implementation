@@ -17,4 +17,5 @@ if [[ ! "$response" =~ ^[Yy][Ee][Ss]$ ]]; then
 fi
 
 cd "${REPO_ROOT}/terraform/mgmt-cluster"
+kubectl delete -f ./karpenter.yaml
 terraform destroy

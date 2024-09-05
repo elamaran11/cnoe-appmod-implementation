@@ -21,3 +21,5 @@ fi
 cd "${REPO_ROOT}/terraform/mgmt-cluster"
 terraform init -upgrade
 terraform apply -auto-approve
+
+kubectl apply -f ./karpenter.yaml
