@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e -o pipefail
-
+echo "here"
 REPO_ROOT=$(git rev-parse --show-toplevel)
 source ${REPO_ROOT}/setups/utils.sh
 
