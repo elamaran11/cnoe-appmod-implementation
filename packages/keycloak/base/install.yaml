@@ -45,5 +45,5 @@ spec:
           containerPort: 8080
         readinessProbe:
           httpGet:
-            path: /realms/master
+            path: /keycloak/realms/master
             port: 8080

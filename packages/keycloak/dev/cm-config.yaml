@@ -23,4 +23,7 @@ data:
     # The proxy address forwarding mode if the server is behind a reverse proxy.
     proxy=edge
 
-    hostname-strict-backchannel=true
+    # this should only be allowed in development. NEVER in production.
+    hostname-strict=false
+    hostname-strict-backchannel=false
+    http-relative-path=keycloak

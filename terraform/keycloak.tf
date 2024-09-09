@@ -134,7 +134,6 @@ resource "kubernetes_manifest" "secret_keycloak_keycloak_config" {
       "namespace" = "keycloak"
     }
     "data" = {
-      "KC_HOSTNAME" = "${base64encode(local.kc_domain_name)}"
       "KEYCLOAK_ADMIN_PASSWORD" = "${base64encode(random_password.keycloak_admin_password.result)}"
     }
   }
