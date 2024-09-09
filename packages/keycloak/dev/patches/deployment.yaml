@@ -39,6 +39,10 @@ spec:
                 name: keycloak-config
           args:
             - start
+          readinessProbe:
+            httpGet:
+              path: /keycloak/realms/master
+              port: 8080  
           volumeMounts:
             - name: keycloak-config
               mountPath: "/opt/keycloak/conf"
