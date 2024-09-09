@@ -43,6 +43,7 @@ This installation pattern where some Kubernetes manifests are handled in Terrafo
 - AWS CLI (2.13+)
 - eksctl (0.167.0+)
 - Kubectl CLI (1.27+)
+- Helm
 - jq
 - git
 - yq
@@ -84,7 +85,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 Go to [`http://localhost:8081`](http://localhost:8081) and login with the username `admin` and password obtained above. In the UI you can look at resources created, their logs, and events.
 
-After logging in to ArgoCD, please make sure to add [cnoe-appmod-implementation](https://github.com/elamaran11/cnoe-appmod-implementation.git) as a private repository via HTTPS under Settings->Repositories in ArgoCD console.
+After logging in to ArgoCD, please make sure to add [cnoe-appmod-implementation](https://github.com/elamaran11/cnoe-appmod-implementation.git) as a private repository via HTTPS under Settings->Repositories in ArgoCD console. Provide your username and the github personal access token.
 
 ### If you installed it without automatic DNS configuration.
 
@@ -171,6 +172,8 @@ curl https://backstage.<DOMAIN_NAME>
 
 When you open a browser window and go to `https://backstage.<DOMAIN_NAME>`, you should be prompted to login.
 Two users are created during the installation process: `user1` and `user2`. Their passwords are available in the keycloak namespace.
+
+Troubleshooting: If getting an error for the backstage url, verify if the repo  [cnoe-appmod-implementation](https://github.com/elamaran11/cnoe-appmod-implementation.git) has been added as a private repository via HTTPS under Settings->Repositories in ArgoCD console.
 
 ```bash
 k get secrets -n keycloak keycloak-user-config -o go-template='{{range $k,$v := .data}}{{printf "%s: " $k}}{{if not $v}}{{$v}}{{else}}{{$v | base64decode}}{{end}}{{"\n"}}{{end}}'
