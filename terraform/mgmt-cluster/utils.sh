@@ -20,23 +20,6 @@ for cli in "${clis[@]}"; do
 done
 
 DEFAULT_KUBECONFIG_FILE="$HOME/.kube/config"
-# Check if the default kubeconfig file exists
-if [ ! -f "${DEFAULT_KUBECONFIG_FILE}" ]; then
-    echo "${DEFAULT_KUBECONFIG_FILE} kubeconfig file does not exist. Exiting..."
-    exit 1
-fi
-
-if [ "$( grep  -v "^$\|^ *$" -c  "${DEFAULT_KUBECONFIG_FILE}" )" -eq "0" ]; then
-    echo -e "${RED}Error: ${DEFAULT_KUBECONFIG_FILE} kubeconfig file does not exist or is empty.${NC}"
-    echo -e "${PURPLE}Info: Please configure a valid kubeconfig file or set the KUBECONFIG environment variable.${NC}"
-    exit 1
-fi
-
-kubectl cluster-info > /dev/null
-if [ $? -ne 0 ]; then
-  echo "Could not get cluster info. Ensure kubectl is configured correctly"
-  exit 1
-fi
 
 minor=$(kubectl version --client=true -o yaml | yq '.clientVersion.minor')
 if [[ ${minor} -lt "27" ]]; then

@@ -2,7 +2,7 @@
 set -e -o pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
-source ${REPO_ROOT}/setups/utils.sh
+source ${REPO_ROOT}/terraform/mgmt-cluster/utils.sh
 
 echo -e "${GREEN}Installing with the following options: ${NC}"
 echo -e "${GREEN}----------------------------------------------------${NC}"
@@ -21,5 +21,8 @@ fi
 cd "${REPO_ROOT}/terraform/mgmt-cluster"
 terraform init -upgrade
 terraform apply -auto-approve
+
+aws eks --region us-west-2 update-kubeconfig --name modern-engineering
+sleep 5
 
 kubectl apply -f ./karpenter.yaml
