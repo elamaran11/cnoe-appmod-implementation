@@ -17,4 +17,4 @@
 
   sed -i.bak 's/namespace: default/namespace: gitea/g' ${INSTALL_YAML}
 
-  kubectl apply -n gitea -f ${INSTALL_YAML}
+#  kubectl apply -n gitea -f ${INSTALL_YAML}

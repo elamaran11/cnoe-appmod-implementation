@@ -17602,6 +17602,9 @@ spec:
       containers:
       - args:
         - /usr/local/bin/argocd-server
+        - --insecure
+        - --basehref
+        - /argocd
         env:
         - name: ARGOCD_SERVER_INSECURE
           valueFrom:

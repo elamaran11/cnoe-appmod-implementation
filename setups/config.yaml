@@ -4,7 +4,7 @@ repo_url: "https://github.com/cnoe-io/reference-implementation-aws"
 # Tags to apply to AWS resources
 tags: 
   env: "dev"
-  project: "cnoe"
+  project: "modern-engg"
 region: "us-west-2"
 # The name of the EKS cluster you are installing this under.
 cluster_name: "modern-engineering"
