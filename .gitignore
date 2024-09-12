@@ -6,15 +6,19 @@ private
 # Local .terraform directories
 **/.terraform/*
 
-# Terraform lockfile
-.terraform.lock.hcl
-
 # .tfstate files
 *.tfstate
 *.tfstate.*
-*.tfplan
+
+# Ignore transient lock info files created by terraform apply
+.terraform.tfstate.lock.info
+
+# Terraform build files
+.terraform.lock.hcl
+
 
 terraform-apply.log
+
 
 # Crash log files
 crash.log
