@@ -30,6 +30,11 @@ spec:
                 secretKeyRef:
                   name: postgresql-config
                   key: POSTGRES_PASSWORD
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-config
+                  key: KEYCLOAK_ADMIN_PASSWORD
           envFrom:
             - secretRef:
                 name: keycloak-config
