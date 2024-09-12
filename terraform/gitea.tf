@@ -58,7 +58,7 @@ resource "kubectl_manifest" "ingress_gitea" {
   ]
 
   yaml_body = templatefile("${path.module}/templates/manifests/ingress-gitea.yaml", {
-    GITEA_DOMAIN_NAME = local.gitea_domain_name
+    GITEA_DOMAIN_NAME = local.domain_name
   }
   )
 }

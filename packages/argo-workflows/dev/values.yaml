@@ -4,7 +4,9 @@ workflow:
   rbac:
     create: false
 server:
+  baseHref: /argo-workflows
   sso:
+    insecureSkipVerify: true
     enabled: true
     clientId:
       name: keycloak-oidc

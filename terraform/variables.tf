@@ -25,12 +25,6 @@ variable "cluster_name" {
   type        = string
 }
 
-variable "hosted_zone_id" {
-  description = "If using external DNS, specify the Route53 hosted zone ID. Required if enable_dns_management is set to true."
-  default     = "Z0202147IFM0KVTW2P35"
-  type        = string
-}
-
 variable "domain_name" {
   description = "if external DNS is not used, this value must be provided."
   default     = "svc.cluster.local"
@@ -39,20 +33,8 @@ variable "domain_name" {
 
 variable "organization_url" {
   description = "github organization url"
-  default     = "https://github.com/cnoe-io"
+  default     = "https://github.com/aws-samples"
   type        = string
-}
-
-variable "enable_dns_management" {
-  description = "Do you want to use external dns to manage dns records in Route53?"
-  default     = true
-  type        = bool
-}
-
-variable "enable_external_secret" {
-  description = "Do you want to use external secret to manage dns records in Route53?"
-  default     = true
-  type        = bool
 }
 
 variable "enable_terraform_integrations" {

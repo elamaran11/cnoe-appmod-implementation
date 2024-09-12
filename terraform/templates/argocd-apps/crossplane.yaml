@@ -8,7 +8,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: cnoe
+  project: modern-engg
   sources:
     - chart: crossplane
       repoURL: https://charts.crossplane.io/stable

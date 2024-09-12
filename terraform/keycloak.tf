@@ -45,7 +45,7 @@ module "external_secrets_role_keycloak" {
 }
 
 resource "aws_iam_role_policy_attachment" "external_secrets_role_attach" {
-  count = local.dns_count
+  count = 0
 
   role       = module.external_secrets_role_keycloak[0].iam_role_name
   policy_arn = aws_iam_policy.external-secrets[0].arn
@@ -67,8 +67,7 @@ resource "kubernetes_manifest" "namespace_keycloak" {
 resource "kubernetes_manifest" "serviceaccount_external_secret_keycloak" {
   count = local.secret_count
   depends_on = [
-    kubernetes_manifest.namespace_keycloak,
-    kubectl_manifest.application_argocd_external_secrets
+    kubernetes_manifest.namespace_keycloak
   ]
   
   manifest = {
@@ -97,7 +96,7 @@ resource "aws_secretsmanager_secret_version" "keycloak_config" {
 
   secret_id     = aws_secretsmanager_secret.keycloak_config[0].id
   secret_string = jsonencode({
-    KC_HOSTNAME = local.kc_domain_name
+    KC_HOSTNAME = local.domain_name
     KEYCLOAK_ADMIN_PASSWORD = random_password.keycloak_admin_password.result
     POSTGRES_PASSWORD = random_password.keycloak_postgres_password.result
     POSTGRES_DB = "keycloak"
@@ -108,8 +107,6 @@ resource "aws_secretsmanager_secret_version" "keycloak_config" {
 
 resource "kubectl_manifest" "keycloak_secret_store" {
   depends_on = [
-    kubectl_manifest.application_argocd_aws_load_balancer_controller,
-    kubectl_manifest.application_argocd_external_secrets,
     kubernetes_manifest.serviceaccount_external_secret_keycloak
   ]
 
@@ -201,8 +198,7 @@ resource "random_password" "keycloak_postgres_password" {
 
 resource "kubectl_manifest" "application_argocd_keycloak" {
   depends_on = [
-    kubectl_manifest.keycloak_secret_store,
-    kubectl_manifest.application_argocd_ingress_nginx
+    kubectl_manifest.keycloak_secret_store
   ]
 
   yaml_body = templatefile("${path.module}/templates/argocd-apps/keycloak.yaml", {
@@ -232,7 +228,7 @@ resource "kubectl_manifest" "ingress_keycloak" {
   ]
 
   yaml_body = templatefile("${path.module}/templates/manifests/ingress-keycloak.yaml", {
-      KEYCLOAK_DOMAIN_NAME = local.kc_domain_name
+      KEYCLOAK_DOMAIN_NAME = local.domain_name
     }
   )
 }

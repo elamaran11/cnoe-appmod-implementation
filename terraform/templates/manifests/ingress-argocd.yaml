@@ -4,19 +4,17 @@ metadata:
   name: argocd-server-ingress
   namespace: argocd
   annotations:
-    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - ${ARGOCD_DOMAIN_NAME}
-      secretName: argocd-prod-tls
   rules:
     - host: ${ARGOCD_DOMAIN_NAME}
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /argocd(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: argocd-server

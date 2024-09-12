@@ -14,10 +14,10 @@ spec:
       kind: Secret
       name: k8s-config
       namespace: backstage
-  project: cnoe
+  project: modern-engg
   sources:
     - repoURL: ${GITHUB_URL}
-      targetRevision: HEAD
+      targetRevision: feature/upgradeToPathBasedRouting
       path: packages/backstage/dev/
   destination:
     server: "https://kubernetes.default.svc"

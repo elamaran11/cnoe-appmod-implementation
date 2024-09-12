@@ -4,11 +4,7 @@ set -e -o pipefail
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
 export POSTGRES_PASSWORD=${1}
-export BACKSTAGE_DOMAIN_NAME=${2}
-export KEYCLOAK_DOMAIN_NAME=${3}
-export ARGO_WORKFLOWS_DOMAIN_NAME=${4}
-export GITEA_DOMAIN_NAME=${5}
-export DOMAIN_NAME=${6}
+export DOMAIN_NAME=${2}
 export GITHUB_APP_YAML_INDENTED=$(cat ${REPO_ROOT}/private/github-integration.yaml | base64 | sed 's/^/    /')
 
 kubectl wait --for=jsonpath=.status.health.status=Healthy -n argocd application/keycloak

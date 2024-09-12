@@ -1,6 +1,0 @@
-resources:
-  - ../base/
-  - cluster-workflow-tf-eks-observability.yaml
-  - cluster-workflow-tf-eks-observability-cleanup.yaml
-  - sa-tf-eks-observability.yaml
-  

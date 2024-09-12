@@ -4,19 +4,17 @@ metadata:
   name: argo-workflows
   namespace: argo
   annotations:
-    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - ${ARGO_WORKFLOWS_DOMAIN_NAME}
-      secretName: argo-workflows-prod-tls
   rules:
     - host: ${ARGO_WORKFLOWS_DOMAIN_NAME}
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /argo-workflows(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: argo-workflows-server

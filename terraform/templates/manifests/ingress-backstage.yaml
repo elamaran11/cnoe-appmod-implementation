@@ -4,19 +4,17 @@ metadata:
   name: backstage
   namespace: backstage
   annotations:
-    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - ${BACKSTAGE_DOMAIN_NAME}
-      secretName: backstage-prod-tls
   rules:
     - host: ${BACKSTAGE_DOMAIN_NAME}
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /backstage(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: backstage
