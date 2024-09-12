@@ -35,9 +35,9 @@ spec:
                 secretKeyRef:
                   name: keycloak-config
                   key: KEYCLOAK_ADMIN_PASSWORD
-          envFrom:
-            - secretRef:
-                name: keycloak-config
+#          envFrom:
+#            - secretRef:
+#                name: keycloak-config
           args:
             - start
           readinessProbe:
