@@ -101,17 +101,6 @@ resource "kubectl_manifest" "application_argocd_argo_workflows" {
   )
 }
 
-resource "kubectl_manifest" "application_argocd_argo_workflows_templates" {
-  depends_on = [
-    terraform_data.argo_workflows_keycloak_setup
-  ]
-
-  yaml_body = templatefile("${path.module}/templates/argocd-apps/argo-workflows-templates.yaml", {
-      GITHUB_URL = local.repo_url
-    }
-  )
-}
-
 resource "kubectl_manifest" "application_argocd_argo_workflows_sso_config" {
   depends_on = [
     terraform_data.argo_workflows_keycloak_setup
@@ -129,7 +118,7 @@ resource "kubectl_manifest" "ingress_argo_workflows" {
   ]
 
   yaml_body = templatefile("${path.module}/templates/manifests/ingress-argo-workflows.yaml", {
-      ARGO_WORKFLOWS_DOMAIN_NAME = local.argo_domain_name
+      ARGO_WORKFLOWS_DOMAIN_NAME = local.domain_name
     }
   )
 }
