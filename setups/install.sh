@@ -21,11 +21,11 @@ if [[ ! "$response" =~ ^[Yy][Ee][Ss]$ ]]; then
 fi
 
 export GITHUB_URL=$(yq '.repo_url' ./setups/config.yaml)
-
-# Set up ArgoCD. We will use ArgoCD to install all components.
-cd "${REPO_ROOT}/setups/argocd/"
-./install.sh
-cd -
+#
+## Set up ArgoCD. We will use ArgoCD to install all components.
+#cd "${REPO_ROOT}/setups/argocd/"
+#./install.sh
+#cd -
 
 # The rest of the steps are defined as a Terraform module. Parse the config to JSON and use it as the Terraform variable file. This is done because JSON doesn't allow you to easily place comments.
 cd "${REPO_ROOT}/terraform/"
