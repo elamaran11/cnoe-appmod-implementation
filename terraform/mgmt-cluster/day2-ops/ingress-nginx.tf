@@ -8,7 +8,7 @@ resource "kubectl_manifest" "application_argocd_ingress_nginx" {
     )
 
   provisioner "local-exec" {
-    command = "kubectl wait --for=jsonpath=.status.health.status=Healthy --timeout=300s -n argocd application/ingress-nginx"
+    command = "kubectl wait --for=jsonpath=.status.health.status=Healthy --timeout=600s -n argocd application/ingress-nginx"
 
     interpreter = ["/bin/bash", "-c"]
   }
