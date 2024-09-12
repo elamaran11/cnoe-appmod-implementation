@@ -8,7 +8,7 @@ module "data_on_eks_runner_role" {
   role_policy_arns = {
     policy = "arn:aws:iam::aws:policy/AdministratorAccess"
   }
-  role_name_prefix = "cnoe-external-dns"
+  role_name_prefix = "modern-engg-external-dns"
   oidc_providers = {
     main = {
       provider_arn               = data.aws_iam_openid_connect_provider.eks_oidc.arn

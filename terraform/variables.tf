@@ -8,7 +8,7 @@ variable "tags" {
   description = "Tags to apply to AWS resources"
   default = {
     env     = "dev"
-    project = "cnoe"
+    project = "modern-engg"
   }
   type = map(string)
 }

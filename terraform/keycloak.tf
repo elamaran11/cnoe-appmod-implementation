@@ -5,7 +5,7 @@
 resource "aws_iam_policy" "external-secrets" {
   count = local.secret_count
 
-  name_prefix = "cnoe-external-secrets-"
+  name_prefix = "modern-engg-external-secrets-"
   description = "For use with External Secrets Controller for Keycloak"
   policy = jsonencode(
     {
@@ -20,7 +20,7 @@ resource "aws_iam_policy" "external-secrets" {
           "secretsmanager:ListSecretVersionIds"
         ],
         "Resource": [
-          "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:cnoe/keycloak/*"
+          "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:modern-engg/keycloak/*"
         ]
       }
     ]
@@ -33,7 +33,7 @@ module "external_secrets_role_keycloak" {
   version = "~> 5.14"
   count = local.secret_count
 
-  role_name_prefix = "cnoe-external-secrets-"
+  role_name_prefix = "modern-engg-external-secrets-"
   
   oidc_providers = {
     main = {
@@ -86,8 +86,8 @@ resource "kubernetes_manifest" "serviceaccount_external_secret_keycloak" {
 resource "aws_secretsmanager_secret" "keycloak_config" {
   count = local.secret_count
 
-  description = "for use with cnoe keycloak installation"
-  name = "cnoe/keycloak/config"
+  description = "for use with modern engineering keycloak installation"
+  name = "modern-engg/keycloak/config"
   recovery_window_in_days = 0
 }
 
