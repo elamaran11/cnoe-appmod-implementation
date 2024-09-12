@@ -23,10 +23,6 @@ spec:
           env:
             - name: KEYCLOAK_ADMIN
               value: 'cnoe-admin'
-            - name: KC_HOSTNAME_ADMIN_URL
-              value: "http://${KEYCLOAK_DOMAIN_NAME}/keycloak"
-            - name: KC_HOSTNAME_URL
-              value: "http://${KEYCLOAK_DOMAIN_NAME}/keycloak"  
             - name: KC_HOSTNAME_STRICT_HTTPS
               value: "false"    
             - name: KC_DB_PASSWORD

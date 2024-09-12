@@ -45,7 +45,7 @@ module "external_secrets_role_keycloak" {
 }
 
 resource "aws_iam_role_policy_attachment" "external_secrets_role_attach" {
-  count = 0
+  count = local.secret_count
 
   role       = module.external_secrets_role_keycloak[0].iam_role_name
   policy_arn = aws_iam_policy.external-secrets[0].arn
@@ -96,7 +96,8 @@ resource "aws_secretsmanager_secret_version" "keycloak_config" {
 
   secret_id     = aws_secretsmanager_secret.keycloak_config[0].id
   secret_string = jsonencode({
-    KC_HOSTNAME = local.domain_name
+    KC_HOSTNAME_URL = "http://${local.domain_name}/keycloak"
+    KC_HOSTNAME_ADMIN_URL = "http://${local.domain_name}/keycloak"
     KEYCLOAK_ADMIN_PASSWORD = random_password.keycloak_admin_password.result
     POSTGRES_PASSWORD = random_password.keycloak_postgres_password.result
     POSTGRES_DB = "keycloak"
@@ -132,6 +133,8 @@ resource "kubernetes_manifest" "secret_keycloak_keycloak_config" {
     }
     "data" = {
       "KEYCLOAK_ADMIN_PASSWORD" = "${base64encode(random_password.keycloak_admin_password.result)}"
+      "KC_HOSTNAME_URL" = "http://${local.domain_name}/keycloak"
+      "KC_HOSTNAME_ADMIN_URL" = "http://${local.domain_name}/keycloak"
     }
   }
 }

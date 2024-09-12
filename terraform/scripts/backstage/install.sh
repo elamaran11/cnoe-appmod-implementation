@@ -5,7 +5,7 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 
 export POSTGRES_PASSWORD=${1}
 export DOMAIN_NAME=${2}
-export GITHUB_APP_YAML_INDENTED=$(cat ${REPO_ROOT}/private/github-integration.yaml | base64 | sed 's/^/    /')
+#export GITHUB_APP_YAML_INDENTED=$(cat ${REPO_ROOT}/private/github-integration.yaml | base64 | sed 's/^/    /')
 
 kubectl wait --for=jsonpath=.status.health.status=Healthy -n argocd application/keycloak
 kubectl wait --for=condition=ready pod -l app=keycloak -n keycloak  --timeout=30s
