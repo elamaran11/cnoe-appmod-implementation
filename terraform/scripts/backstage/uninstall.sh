@@ -33,12 +33,12 @@ KEYCLOAK_TOKEN=$(curl -sS  --fail-with-body -X POST -H "Content-Type: applicatio
   --data-urlencode "password=${ADMIN_PASSWORD}" \
   --data-urlencode "grant_type=password" \
   --data-urlencode "client_id=admin-cli" \
-  localhost:8080/realms/master/protocol/openid-connect/token | jq -e -r '.access_token')
+  localhost:8080/keycloak/realms/master/protocol/openid-connect/token | jq -e -r '.access_token')
 
 CLIENT_ID=$(curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
-  -X GET localhost:8080/admin/realms/cnoe/clients | jq -e -r  '.[] | select(.clientId == "backstage") | .id')
+  -X GET localhost:8080/keycloak/admin/realms/cnoe/clients | jq -e -r  '.[] | select(.clientId == "backstage") | .id')
 
 curl -sS --fail-with-body -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
-  -X DELETE localhost:8080/admin/realms/cnoe/clients/${CLIENT_ID}
+  -X DELETE localhost:8080/keycloak/admin/realms/cnoe/clients/${CLIENT_ID}

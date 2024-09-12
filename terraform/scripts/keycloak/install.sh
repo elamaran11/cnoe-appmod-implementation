@@ -6,8 +6,10 @@ ADMIN_PASSWORD=${2}
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
 echo "waiting for keycloak to be ready. may take a few minutes"
-kubectl wait --for=jsonpath=.status.health.status=Healthy -n argocd application/keycloak --timeout=300s
-kubectl wait --for=condition=ready pod -l app=keycloak -n keycloak  --timeout=30s
+kubectl wait --for=jsonpath=.status.health.status=Healthy -n argocd application/keycloak --timeout=600s
+kubectl wait --for=condition=ready pod -l app=keycloak -n keycloak  --timeout=90s
+
+sleep 5
 
 # Configure keycloak. Might be better to just import
 kubectl port-forward -n keycloak svc/keycloak 8080:8080 > /dev/null 2>&1 &

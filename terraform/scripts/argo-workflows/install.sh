@@ -24,26 +24,26 @@ KEYCLOAK_TOKEN=$(curl -sS  --fail-with-body -X POST -H "Content-Type: applicatio
 --data-urlencode "password=${ADMIN_PASSWORD}" \
 --data-urlencode "grant_type=password" \
 --data-urlencode "client_id=admin-cli" \
-localhost:8090/realms/master/protocol/openid-connect/token | jq -e -r '.access_token')
+localhost:8090/keycloak/realms/master/protocol/openid-connect/token | jq -e -r '.access_token')
 
 envsubst < config-payloads/client-payload.json > config-payloads/client-payload-to-be-applied.json
 
 curl -sS -H "Content-Type: application/json" \
 -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
 -X POST --data @config-payloads/client-payload-to-be-applied.json \
-localhost:8090/admin/realms/cnoe/clients
+localhost:8090/keycloak/admin/realms/cnoe/clients
 
 CLIENT_ID=$(curl -sS -H "Content-Type: application/json" \
 -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
--X GET localhost:8090/admin/realms/cnoe/clients | jq -e -r  '.[] | select(.clientId == "argo-workflows") | .id')
+-X GET localhost:8090/keycloak/admin/realms/cnoe/clients | jq -e -r  '.[] | select(.clientId == "argo-workflows") | .id')
 
 export CLIENT_SECRET=$(curl -sS -H "Content-Type: application/json" \
 -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
--X GET localhost:8090/admin/realms/cnoe/clients/${CLIENT_ID} | jq -e -r '.secret')
+-X GET localhost:8090/keycloak/admin/realms/cnoe/clients/${CLIENT_ID} | jq -e -r '.secret')
 
-CLIENT_SCOPE_GROUPS_ID=$(curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X GET  localhost:8090/admin/realms/cnoe/client-scopes | jq -e -r  '.[] | select(.name == "groups") | .id')
+CLIENT_SCOPE_GROUPS_ID=$(curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X GET  localhost:8090/keycloak/admin/realms/cnoe/client-scopes | jq -e -r  '.[] | select(.name == "groups") | .id')
 
-curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X PUT  localhost:8090/admin/realms/cnoe/clients/${CLIENT_ID}/default-client-scopes/${CLIENT_SCOPE_GROUPS_ID}
+curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X PUT  localhost:8090/keycloak/admin/realms/cnoe/clients/${CLIENT_ID}/default-client-scopes/${CLIENT_SCOPE_GROUPS_ID}
 
 echo 'storing client secrets to argo namespace'
 

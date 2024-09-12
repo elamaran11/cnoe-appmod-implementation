@@ -37,13 +37,13 @@ KEYCLOAK_TOKEN=$(curl -sS  --fail-with-body -X POST -H "Content-Type: applicatio
   --data-urlencode "password=${ADMIN_PASSWORD}" \
   --data-urlencode "grant_type=password" \
   --data-urlencode "client_id=admin-cli" \
-  localhost:8090/realms/master/protocol/openid-connect/token | jq -e -r '.access_token')
+  localhost:8090/keycloak/realms/master/protocol/openid-connect/token | jq -e -r '.access_token')
 
 CLIENT_ID=$(curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
-  -X GET localhost:8090/admin/realms/cnoe/clients | jq -e -r  '.[] | select(.clientId == "argo-workflows") | .id')
+  -X GET localhost:8090/keycloak/admin/realms/cnoe/clients | jq -e -r  '.[] | select(.clientId == "argo-workflows") | .id')
 
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
-  -X DELETE localhost:8090/admin/realms/cnoe/clients/${CLIENT_ID}
+  -X DELETE localhost:8090/keycloak/admin/realms/cnoe/clients/${CLIENT_ID}
 
