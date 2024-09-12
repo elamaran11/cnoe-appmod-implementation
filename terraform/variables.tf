@@ -42,3 +42,9 @@ variable "enable_terraform_integrations" {
   default     = false
   type        = bool
 }
+
+variable "enable_external_secret" {
+  description = "Do you want to use external secret to manage dns records in Route53?"
+  default     = true
+  type        = bool
+}
