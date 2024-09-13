@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e -o pipefail
-echo "here"
+
 REPO_ROOT=$(git rev-parse --show-toplevel)
 source ${REPO_ROOT}/setups/utils.sh
 
@@ -16,6 +16,14 @@ if [[ ! "$response" =~ ^[Yy][Ee][Ss]$ ]]; then
   exit 0
 fi
 
+SETUP_DIR="${REPO_ROOT}/setups"
+
+cd "${SETUP_DIR}/argocd/"
+./uninstall.sh
+cd -
+
 cd "${REPO_ROOT}/terraform/mgmt-cluster"
-kubectl delete -f ./karpenter.yaml
+
+kubectl delete -f ./karpenter.yaml || true
+
 terraform destroy

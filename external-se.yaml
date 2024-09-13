@@ -1,0 +1,40 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: keycloak:external-secrets.io/ExternalSecret:keycloak/keycloak-config
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"external-secrets.io/v1beta1","kind":"ExternalSecret","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"keycloak:external-secrets.io/ExternalSecret:keycloak/keycloak-config"},"name":"keycloak-config","namespace":"keycloak"},"spec":{"data":[{"remoteRef":{"key":"cnoe/keycloak/config","property":"KC_HOSTNAME"},"secretKey":"KC_HOSTNAME"},{"remoteRef":{"key":"cnoe/keycloak/config","property":"KEYCLOAK_ADMIN_PASSWORD"},"secretKey":"KEYCLOAK_ADMIN_PASSWORD"}],"refreshInterval":"5m","secretStoreRef":{"kind":"SecretStore","name":"keycloak"},"target":{"creationPolicy":"Owner","name":"keycloak-config"}}}
+  creationTimestamp: "2024-09-06T17:40:09Z"
+  generation: 2
+  name: keycloak-config
+  namespace: keycloak
+  resourceVersion: "140409"
+  uid: a7259aa6-e02f-4832-95cc-b3cfe2afdfd4
+spec:
+  data:
+  - remoteRef:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: cnoe/keycloak/config
+      property: KEYCLOAK_ADMIN_PASSWORD
+    secretKey: KEYCLOAK_ADMIN_PASSWORD
+  refreshInterval: 5m
+  secretStoreRef:
+    kind: SecretStore
+    name: keycloak
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: keycloak-config
+status:
+  binding:
+    name: keycloak-config
+  conditions:
+  - lastTransitionTime: "2024-09-06T17:40:10Z"
+    message: Secret was synced
+    reason: SecretSynced
+    status: "True"
+    type: Ready
+  refreshTime: "2024-09-06T21:38:35Z"
+  syncedResourceVersion: 2-e6f2b6492284063ac3017bc355752d0e
