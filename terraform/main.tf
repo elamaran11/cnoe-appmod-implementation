@@ -8,8 +8,8 @@ locals {
   tf_integrations_count = var.enable_terraform_integrations ? 1 : 0
 
   domain_name           = var.domain_name
-  kc_url                = "http://${local.domain_name}/keycloak/realms/cnoe"
-  argo_redirect_url     = "http://${local.domain_name}/argo-workflows/oauth2/callback"
+  kc_url                = "https://${local.domain_name}/keycloak/realms/cnoe"
+  argo_redirect_url     = "https://${local.domain_name}/argo-workflows/oauth2/callback"
 }
 
 

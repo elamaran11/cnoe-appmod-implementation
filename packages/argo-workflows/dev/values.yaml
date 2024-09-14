@@ -21,6 +21,8 @@ server:
       - groups
     rbac:
       enabled: true
+    nodeEvents:
+      enabled: false
   extraArgs:
     - --auth-mode=client
     - --auth-mode=sso

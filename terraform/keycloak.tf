@@ -96,8 +96,8 @@ resource "aws_secretsmanager_secret_version" "keycloak_config" {
 
   secret_id     = aws_secretsmanager_secret.keycloak_config[0].id
   secret_string = jsonencode({
-    KC_HOSTNAME_URL = "http://${local.domain_name}/keycloak"
-    KC_HOSTNAME_ADMIN_URL = "http://${local.domain_name}/keycloak"
+    KC_HOSTNAME_URL = "https://${local.domain_name}/keycloak"
+    KC_HOSTNAME_ADMIN_URL = "https://${local.domain_name}/keycloak"
     KEYCLOAK_ADMIN_PASSWORD = random_password.keycloak_admin_password.result
     POSTGRES_PASSWORD = random_password.keycloak_postgres_password.result
     POSTGRES_DB = "keycloak"
@@ -133,8 +133,8 @@ resource "kubernetes_manifest" "secret_keycloak_keycloak_config" {
     }
     "data" = {
       "KEYCLOAK_ADMIN_PASSWORD" = "${base64encode(random_password.keycloak_admin_password.result)}"
-      "KC_HOSTNAME_URL" = "http://${local.domain_name}/keycloak"
-      "KC_HOSTNAME_ADMIN_URL" = "http://${local.domain_name}/keycloak"
+      "KC_HOSTNAME_URL" = "https://${local.domain_name}/keycloak"
+      "KC_HOSTNAME_ADMIN_URL" = "https://${local.domain_name}/keycloak"
     }
   }
 }
