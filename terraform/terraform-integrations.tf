@@ -16,3 +16,5 @@ resource "kubectl_manifest" "tofu_manifest" {
   count     = local.tf_integrations_count
   yaml_body = data.http.tofu_manifestfile[0].response_body
 }
+
+

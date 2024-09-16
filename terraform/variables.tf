@@ -48,3 +48,9 @@ variable "enable_external_secret" {
   default     = true
   type        = bool
 }
+
+variable "enable_aiml_integrations" {
+  description = "Do you want to apply the spark and ray operator manifests to create ai/ml in backstage?"
+  default     = false
+  type        = bool
+}
