@@ -2,7 +2,7 @@ module "crossplane_aws_provider_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "~> 5.14"
 
-  role_name_prefix = "cnoe-crossplane-provider-aws"
+  role_name_prefix = "modernengg-crossplane-provider-aws"
   role_policy_arns = {
     policy = "arn:aws:iam::aws:policy/AdministratorAccess"
   }

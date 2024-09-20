@@ -22,7 +22,7 @@ Go to http://localhost:8081
 You may see error message like:
 
 ```
-Error: Get "https://<DOMAIN>/realms/cnoe/.well-known/openid-configuration": dial tcp: lookup <DOMAIN> on 10.100.0.10:53: no such host
+Error: Get "https://<DOMAIN>/realms/modernengg/.well-known/openid-configuration": dial tcp: lookup <DOMAIN> on 10.100.0.10:53: no such host
 ```
 
 This is due to DNS propagation delay in the cluster. Once DNS entries are propagated (may take ~10 min), pods should start running.

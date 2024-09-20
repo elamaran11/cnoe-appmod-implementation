@@ -9,7 +9,7 @@ locals {
   aiml_integrations_count = var.enable_aiml_integrations ? 1 : 0
 
   domain_name           = var.domain_name
-  kc_url                = "https://${local.domain_name}/keycloak/realms/cnoe"
+  kc_url                = "https://${local.domain_name}/keycloak/realms/modernengg"
   argo_redirect_url     = "https://${local.domain_name}/argo-workflows/oauth2/callback"
 }
 

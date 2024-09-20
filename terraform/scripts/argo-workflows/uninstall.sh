@@ -33,7 +33,7 @@ done
 
 echo 'deleting Keycloak client'
 KEYCLOAK_TOKEN=$(curl -sS  --fail-with-body -X POST -H "Content-Type: application/x-www-form-urlencoded" \
-  --data-urlencode "username=cnoe-admin" \
+  --data-urlencode "username=modernengg-admin" \
   --data-urlencode "password=${ADMIN_PASSWORD}" \
   --data-urlencode "grant_type=password" \
   --data-urlencode "client_id=admin-cli" \
@@ -41,9 +41,9 @@ KEYCLOAK_TOKEN=$(curl -sS  --fail-with-body -X POST -H "Content-Type: applicatio
 
 CLIENT_ID=$(curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
-  -X GET localhost:8090/keycloak/admin/realms/cnoe/clients | jq -e -r  '.[] | select(.clientId == "argo-workflows") | .id')
+  -X GET localhost:8090/keycloak/admin/realms/modernengg/clients | jq -e -r  '.[] | select(.clientId == "argo-workflows") | .id')
 
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
-  -X DELETE localhost:8090/keycloak/admin/realms/cnoe/clients/${CLIENT_ID}
+  -X DELETE localhost:8090/keycloak/admin/realms/modernengg/clients/${CLIENT_ID}
 

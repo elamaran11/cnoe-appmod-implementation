@@ -32,13 +32,13 @@ echo $ADMIN_PASSWORD
 
 # Default token expires in one minute. May need to extend. very ugly
 KEYCLOAK_TOKEN=$(curl -sS  --fail-with-body -X POST -H "Content-Type: application/x-www-form-urlencoded" \
-  --data-urlencode "username=cnoe-admin" \
+  --data-urlencode "username=modernengg-admin" \
   --data-urlencode "password=${ADMIN_PASSWORD}" \
   --data-urlencode "grant_type=password" \
   --data-urlencode "client_id=admin-cli" \
   localhost:8080/keycloak/realms/master/protocol/openid-connect/token | jq -e -r '.access_token')
 
-echo "creating cnoe realm and groups"
+echo "creating modernengg realm and groups"
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X POST --data @config-payloads/realm-payload.json \
@@ -47,52 +47,52 @@ curl -sS -H "Content-Type: application/json" \
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X POST --data @config-payloads/client-scope-groups-payload.json \
-  localhost:8080/keycloak/admin/realms/cnoe/client-scopes
+  localhost:8080/keycloak/admin/realms/modernengg/client-scopes
 
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X POST --data @config-payloads/group-admin-payload.json \
-  localhost:8080/keycloak/admin/realms/cnoe/groups
+  localhost:8080/keycloak/admin/realms/modernengg/groups
 
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X POST --data @config-payloads/group-base-user-payload.json \
-  localhost:8080/keycloak/admin/realms/cnoe/groups
+  localhost:8080/keycloak/admin/realms/modernengg/groups
 
 # Create scope mapper
 echo 'adding group claim to tokens'
-CLIENT_SCOPE_GROUPS_ID=$(curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X GET  localhost:8080/keycloak/admin/realms/cnoe/client-scopes | jq -e -r  '.[] | select(.name == "groups") | .id')
+CLIENT_SCOPE_GROUPS_ID=$(curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X GET  localhost:8080/keycloak/admin/realms/modernengg/client-scopes | jq -e -r  '.[] | select(.name == "groups") | .id')
 
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X POST --data @config-payloads/group-mapper-payload.json \
-  localhost:8080/keycloak/admin/realms/cnoe/client-scopes/${CLIENT_SCOPE_GROUPS_ID}/protocol-mappers/models
+  localhost:8080/keycloak/admin/realms/modernengg/client-scopes/${CLIENT_SCOPE_GROUPS_ID}/protocol-mappers/models
 
 echo "creating test users"
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X POST --data @config-payloads/user-user1.json \
-  localhost:8080/keycloak/admin/realms/cnoe/users
+  localhost:8080/keycloak/admin/realms/modernengg/users
 
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X POST --data @config-payloads/user-user2.json \
-  localhost:8080/keycloak/admin/realms/cnoe/users
+  localhost:8080/keycloak/admin/realms/modernengg/users
 
 USER1ID=$(curl -sS -H "Content-Type: application/json" \
-  -H "Authorization: bearer ${KEYCLOAK_TOKEN}" 'localhost:8080/keycloak/admin/realms/cnoe/users?lastName=one' | jq -r '.[0].id')
+  -H "Authorization: bearer ${KEYCLOAK_TOKEN}" 'localhost:8080/keycloak/admin/realms/modernengg/users?lastName=one' | jq -r '.[0].id')
 USER2ID=$(curl -sS -H "Content-Type: application/json" \
-  -H "Authorization: bearer ${KEYCLOAK_TOKEN}" 'localhost:8080/keycloak/admin/realms/cnoe/users?lastName=two' | jq -r '.[0].id')
+  -H "Authorization: bearer ${KEYCLOAK_TOKEN}" 'localhost:8080/keycloak/admin/realms/modernengg/users?lastName=two' | jq -r '.[0].id')
 
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X PUT --data @config-payloads/user-password-to-be-applied.json \
-  localhost:8080/keycloak/admin/realms/cnoe/users/${USER1ID}/reset-password
+  localhost:8080/keycloak/admin/realms/modernengg/users/${USER1ID}/reset-password
 
 curl -sS -H "Content-Type: application/json" \
   -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
   -X PUT --data @config-payloads/user-password-to-be-applied.json \
-  localhost:8080/keycloak/admin/realms/cnoe/users/${USER2ID}/reset-password
+  localhost:8080/keycloak/admin/realms/modernengg/users/${USER2ID}/reset-password
 
 # If TLS secret is available in /private, use it. Could be empty...
 

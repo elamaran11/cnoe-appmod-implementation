@@ -95,7 +95,7 @@ resource "kubectl_manifest" "application_argocd_argo_workflows" {
 
   yaml_body = templatefile("${path.module}/templates/argocd-apps/argo-workflows.yaml", {
       GITHUB_URL = local.repo_url
-      KEYCLOAK_CNOE_URL = local.kc_url
+      KEYCLOAK_MODERNENGG_URL = local.kc_url
       ARGO_REDIRECT_URL = local.argo_redirect_url
     }
   )

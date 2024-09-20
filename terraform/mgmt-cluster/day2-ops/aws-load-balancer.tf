@@ -2,7 +2,7 @@ module "aws_load_balancer_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "~> 5.14"
 
-  role_name_prefix = "cnoe-aws-load-balancer-controller-"
+  role_name_prefix = "modernengg-aws-load-balancer-controller-"
 
   attach_load_balancer_controller_policy = true
 

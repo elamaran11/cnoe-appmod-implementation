@@ -10,7 +10,7 @@ data:
       title: Modern Engineering Backstage
       baseUrl: ${BACKSTAGE_FRONTEND_URL}
     organization:
-      name: CNOE
+      name: MODERNENGG
     backend:
       # Used for enabling authentication, secret is shared by all backend plugins
       # See https://backstage.io/docs/tutorials/backend-to-backend-auth for

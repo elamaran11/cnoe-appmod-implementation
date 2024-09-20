@@ -25,7 +25,7 @@ while ! nc -vz localhost 8080 > /dev/null 2>&1 ; do
 done
 
 KEYCLOAK_TOKEN=$(curl -sS  --fail-with-body -X POST -H "Content-Type: application/x-www-form-urlencoded" \
---data-urlencode "username=cnoe-admin" \
+--data-urlencode "username=modernengg-admin" \
 --data-urlencode "password=${ADMIN_PASSWORD}" \
 --data-urlencode "grant_type=password" \
 --data-urlencode "client_id=admin-cli" \
@@ -36,19 +36,19 @@ envsubst < config-payloads/client-payload.json > config-payloads/client-payload-
 curl -sS -H "Content-Type: application/json" \
 -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
 -X POST --data @config-payloads/client-payload-to-be-applied.json \
-localhost:8080/keycloak/admin/realms/cnoe/clients
+localhost:8080/keycloak/admin/realms/modernengg/clients
 
 CLIENT_ID=$(curl -sS -H "Content-Type: application/json" \
 -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
--X GET localhost:8080/keycloak/admin/realms/cnoe/clients | jq -e -r  '.[] | select(.clientId == "backstage") | .id')
+-X GET localhost:8080/keycloak/admin/realms/modernengg/clients | jq -e -r  '.[] | select(.clientId == "backstage") | .id')
 
 export CLIENT_SECRET=$(curl -sS -H "Content-Type: application/json" \
 -H "Authorization: bearer ${KEYCLOAK_TOKEN}" \
--X GET localhost:8080/keycloak/admin/realms/cnoe/clients/${CLIENT_ID} | jq -e -r '.secret')
+-X GET localhost:8080/keycloak/admin/realms/modernengg/clients/${CLIENT_ID} | jq -e -r '.secret')
 
-CLIENT_SCOPE_GROUPS_ID=$(curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X GET  localhost:8080/keycloak/admin/realms/cnoe/client-scopes | jq -e -r  '.[] | select(.name == "groups") | .id')
+CLIENT_SCOPE_GROUPS_ID=$(curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X GET  localhost:8080/keycloak/admin/realms/modernengg/client-scopes | jq -e -r  '.[] | select(.name == "groups") | .id')
 
-curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X PUT  localhost:8080/keycloak/admin/realms/cnoe/clients/${CLIENT_ID}/default-client-scopes/${CLIENT_SCOPE_GROUPS_ID}
+curl -sS -H "Content-Type: application/json" -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X PUT  localhost:8080/keycloak/admin/realms/modernengg/clients/${CLIENT_ID}/default-client-scopes/${CLIENT_SCOPE_GROUPS_ID}
 
 # Get ArgoCD token for Backstage
 kubectl port-forward svc/argocd-server -n argocd 8085:80 > /dev/null 2>&1 &

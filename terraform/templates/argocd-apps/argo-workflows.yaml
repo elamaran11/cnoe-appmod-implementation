@@ -19,7 +19,7 @@ spec:
           - $values/packages/argo-workflows/dev/values.yaml
         parameters:
           - name: server.sso.issuer
-            value: ${KEYCLOAK_CNOE_URL}
+            value: ${KEYCLOAK_MODERNENGG_URL}
           - name: server.sso.redirectUrl
             value: ${ARGO_REDIRECT_URL}
     - repoURL: ${GITHUB_URL}
