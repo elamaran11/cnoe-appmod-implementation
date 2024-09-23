@@ -5,7 +5,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
   name: provider-family-aws
 spec:
-  package: xpkg.upbound.io/upbound/provider-family-aws:v0.41.0
+  package: xpkg.upbound.io/upbound/provider-family-aws:v1.14.0
 
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -15,6 +15,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "10"
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-s3:v0.41.0
+  package: xpkg.upbound.io/upbound/provider-aws-s3:v1.14.0
   controllerConfigRef:
     name: provider-aws-config
