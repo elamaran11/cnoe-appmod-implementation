@@ -15,8 +15,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-s3:v1.14.0
-  controllerConfigRef:
-    name: provider-aws-config
+  runtimeConfigRef:
+    name: aws-irsa-drc
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -26,8 +26,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-dynamodb:v1.13.1
-  controllerConfigRef:
-    name: provider-aws-config
+  runtimeConfigRef:
+    name: aws-irsa-drc
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -37,8 +37,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-apigatewayv2:v1.13.1
-  controllerConfigRef:
-    name: provider-aws-config
+  runtimeConfigRef:
+    name: aws-irsa-drc
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -48,8 +48,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-eks:v1.13.1
-  controllerConfigRef:
-    name: provider-aws-config
+  runtimeConfigRef:
+    name: aws-irsa-drc
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -59,8 +59,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-iam:v1.13.1
-  controllerConfigRef:
-    name: provider-aws-config
+  runtimeConfigRef:
+    name: aws-irsa-drc
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -70,8 +70,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-lambda:v1.13.0
-  controllerConfigRef:
-    name: provider-aws-config
+  runtimeConfigRef:
+    name: aws-irsa-drc
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -81,5 +81,5 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-rds:v1.13.1
-  controllerConfigRef:
-    name: provider-aws-config
+  runtimeConfigRef:
+    name: aws-irsa-drc
