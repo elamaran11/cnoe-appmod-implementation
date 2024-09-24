@@ -3,6 +3,6 @@ kind: Provider
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-  name: provider-family-aws
+  name: provider-aws
 spec:
   package: xpkg.upbound.io/upbound/provider-aws:v0.48.0
