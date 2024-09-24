@@ -6,4 +6,4 @@ spec:
   serviceAccountTemplate:
     metadata:
       annotations:
-        eks.amazonaws.com/role-arn: ${ROLE_ARN}
+        eks.amazonaws.com/role-arn: {{.Values.ROLE_ARN}}
