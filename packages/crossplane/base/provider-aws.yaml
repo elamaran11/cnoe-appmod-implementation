@@ -5,4 +5,4 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
   name: provider-aws
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v0.48.0
+  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v0.49.1
