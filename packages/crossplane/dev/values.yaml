@@ -1,3 +1,4 @@
+ROLE_ARN: "arn:aws:iam::123456789012:role/your-role-name"
 args:
   - --debug
   - --enable-environment-configs
