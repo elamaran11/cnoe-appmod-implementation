@@ -1,9 +1,10 @@
-apiVersion: pkg.crossplane.io/v1beta1
-kind: DeploymentRuntimeConfig
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
 metadata:
-  name: aws-irsa-drc
+  name: provider-aws-config
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
-  serviceAccountTemplate:
-    metadata:
-      annotations:
-        eks.amazonaws.com/role-arn: ${ROLE_ARN}
+  credentials:
+    source: IRSA
