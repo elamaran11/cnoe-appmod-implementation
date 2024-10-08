@@ -139,5 +139,13 @@ data:
               url: http://${DOMAIN_NAME}/argocd
               username: admin
               password: ${ARGOCD_ADMIN_PASSWORD}
+            - name: dev-cluster
+              url: http://${DOMAIN_NAME}/argocd
+              username: admin
+              password: ${ARGOCD_ADMIN_PASSWORD}
+            - name: prod-cluster
+              url: http://${DOMAIN_NAME}/argocd
+              username: admin
+              password: ${ARGOCD_ADMIN_PASSWORD}
     argoWorkflows:
         baseUrl: ${ARGO_WORKFLOWS_URL}
