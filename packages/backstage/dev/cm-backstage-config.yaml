@@ -97,7 +97,7 @@ data:
             metadataUrl: ${KEYCLOAK_NAME_METADATA}
             clientId: backstage
             clientSecret: ${KEYCLOAK_CLIENT_SECRET}
-            scope: 'openid profile email groups'
+    # scope: 'openid profile email groups'
             prompt: auto
 
     scaffolder:
